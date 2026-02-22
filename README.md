@@ -4,19 +4,21 @@ This project is an AI-driven web application that fetches real-time company-rela
 The system integrates modern NLP techniques and API-based data retrieval to provide actionable news intelligence for businesses and analysts.
 
 Features
-Fetches real-time news using Tavily API
-Abstractive summarization using Hugging Face BART model
-Sentiment analysis using VADER (NLTK)
-Multilingual support (translation-based output)
-Text-to-Speech generation using gTTS
-Individual article summaries + overall summary
-Final sentiment aggregation report
-Robust error handling & safe summarization retries
-Clean and responsive web UI
+
+->Fetches real-time news using Tavily API
+->Abstractive summarization using Hugging Face BART model
+->Sentiment analysis using VADER (NLTK)
+->Multilingual support (translation-based output)
+->Text-to-Speech generation using gTTS
+->Individual article summaries + overall summary
+->Final sentiment aggregation report
+->Robust error handling & safe summarization retries
+->Clean and responsive web UI
 
 
 
 System Architecture
+
 
 User Input (Company Name)
 ⬇
@@ -37,19 +39,20 @@ gTTS → Audio Report Generation
 Display Results in Web Interface
 
 
-Tech Stack
+Tech Stack:- 
+
 Backend
-Python
-Flask
-Tavily API
-Hugging Face Transformers (facebook/bart-large-cnn)
-NLTK (VADER Sentiment Analyzer)
-gTTS
+->Python
+->Flask
+->Tavily API
+->Hugging Face Transformers (facebook/bart-large-cnn)
+->NLTK (VADER Sentiment Analyzer)
+->gTTS
 
 Frontend
-HTML
-CSS
-Bootstrap
+->HTML
+->CSS
+->Bootstrap
 
 Other Tools
 dotenv for environment variables
