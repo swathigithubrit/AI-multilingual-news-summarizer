@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NewsSummarEase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .summary-card { margin-bottom: 20px; }
+        .audio-player { margin-top: 10px; }
+        .section-title { margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h1 class="text-center mb-4">📰 NewsSummarEase</h1>
+
+    <!-- Form -->
+    <form method="post" class="card p-4 shadow-sm mb-5">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+                <label for="company" class="form-label">Enter Company Name:</label>
+                <input type="text" name="company" id="company" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label for="language" class="form-label">Select Language:</label>
+                <select name="language" id="language" class="form-select" required>
+                    {% for lang_name, lang_code in languages.items() %}
+                        <option value="{{ lang_name }}">{{ lang_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Summarize</button>
+            </div>
+        </div>
+    </form>
+
+    {% if summaries %}
+        <!-- Sentiment Counts -->
+        <div class="text-center mb-4">
+            <h4>📈 Sentiment Counts</h4>
+            <span class="badge bg-success">Positive: {{ sentiment_counts['Positive'] }}</span>
+            <span class="badge bg-danger">Negative: {{ sentiment_counts['Negative'] }}</span>
+            <span class="badge bg-secondary">Neutral: {{ sentiment_counts['Neutral'] }}</span>
+        </div>
+
+    
+
+        <!-- Final Sentiment Summary -->
+        <div class="card p-4 shadow-sm mb-4">
+            <h5 class="section-title">📊 Final Sentiment Summary</h5>
+            <p>{{ final_summary }}</p>
+            <div class="audio-player">
+                <strong>🎧 Listen to Report:</strong><br>
+                <audio controls>
+                    <source src="{{ url_for('static', filename=audio_path.split('static/')[-1]) }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <!-- Overall Summary -->
+        <div class="card p-4 shadow-sm mb-4">
+            <h5 class="section-title">📝 Overall Summary</h5>
+            <p>{{ overall_generated_summary }}</p>
+            <div class="audio-player">
+                <strong>🎧 Listen to Overall Summary:</strong><br>
+                <audio controls>
+                    <source src="{{ url_for('static', filename=final_summary_audio_path.split('static/')[-1]) }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <!-- Article Summaries -->
+        <div class="section-title"><h4>📰 Individual Article Summaries</h4></div>
+        {% for summary in summaries %}
+        <div class="card summary-card shadow-sm p-3">
+            <h5>{{ summary.title }}</h5>
+            <p><strong>Published:</strong> {{ summary.published }}</p>
+            <p><strong>🔗 Link:</strong> <a href="{{ summary.link }}" target="_blank">Read Full Article</a></p>
+            <p><strong>📝 Summary:</strong> {{ summary.generated_summary }}</p>
+            <div class="audio-player">
+                <strong>🎧 Listen to Summary:</strong><br>
+                <audio controls>
+                    <source src="{{ url_for('static', filename=summary.audio_path.split('static/')[-1]) }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <p><strong>📊 Sentiment:</strong>
+                <span class="badge 
+                    {% if summary.sentiment == 'Positive' %}bg-success
+                    {% elif summary.sentiment == 'Negative' %}bg-danger
+                    {% else %}bg-secondary{% endif %}">
+                    {{ summary.sentiment }}
+                </span>
+            </p>
+            <p><strong>🔑 Topics:</strong> {{ summary.topics | join(", ") }}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+</body>
+</html>
